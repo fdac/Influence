@@ -19,4 +19,4 @@ for result in iterator:
 		except KeyError:
 			users[username] = 1
 
-json.dumps(users)
+print json.dumps(users)

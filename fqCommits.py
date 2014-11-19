@@ -6,9 +6,6 @@ client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
 commits = db['commits']
 
-result = commits.find_one({})
-year, month, date = map(int, result['values'][0]['date'].split('T')[0].split('-'))
-
 iterator = commits.find({})
 i = 0
 for result in iterator:

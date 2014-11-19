@@ -5,3 +5,4 @@ nohup python nForks.py > data/nForks.data 2> data/nForks.err &
 nohup python timeContrb.py > data/timeContrb.data 2> data/timeContrb.err &
 nohup python totalRepos.py > data/totalRepos.data 2> data/totalRepos.err &
 nohup python nFollowers.py > data/nFollowers.data 2> data/nFollowers.err &
+nohup python nPulls.py > data/nPulls.data 2> data/nPulls.err &

@@ -7,16 +7,20 @@ commits = db['commits']
 
 iterator = commits.find({})
 for result in iterator:
-	username = ''
 	try:
-		username = result['values'][0]['author']['user']['username']
+		for commit in result['values']:
+			username = ''
+			try:
+				username = commit['author']['user']['username']
+			except KeyError:
+				pass
+	
+			if username != '':
+				try:
+					users[username] += 1
+				except KeyError:
+					users[username] = 1
 	except KeyError:
 		pass
-
-	if username != '':
-		try:
-			users[username] += 1
-		except KeyError:
-			users[username] = 1
 
 print json.dumps(users)

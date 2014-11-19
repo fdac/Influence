@@ -36,4 +36,4 @@ for result in iterator:
 
 for username in users:
 	totals[username] = users[username]['count']
-print json.dumps(users)
+print json.dumps(totals)

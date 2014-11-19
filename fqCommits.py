@@ -7,7 +7,6 @@ db = client['bitbucket']
 commits = db['commits']
 
 iterator = commits.find({})
-i = 0
 for result in iterator:
 	try:
 		for commit in result['values']:
@@ -45,6 +44,6 @@ for result in iterator:
 for username in users:
 	diff = users[username]['last'] - users[username]['first']
 	diff = int(diff.days)
-	freqs[username] = users[username]['commits'] / (diff + 1)
+	freqs[username] = 1.0*users[username]['commits'] / (diff + 1)
 
 print json.dumps(freqs)

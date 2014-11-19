@@ -6,7 +6,6 @@ client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
 commits = db['commits']
 
-print commits.find_one({})['values'][0]['repository']['name']
 iterator = commits.find({})
 for result in iterator:
 	try:

@@ -3,9 +3,9 @@ import pymongo, json
 users = {}
 client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
-commits = db['forks']
+forks = db['forks']
 
-iterator = commits.find({})
+iterator = forks.find({})
 for result in iterator:
 	try:
 		for fork in result['values']:

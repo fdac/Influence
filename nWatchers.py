@@ -20,14 +20,18 @@ for result in iterator:
 		pass
 
 iterator = commits.find({})
+i = 0
 for result in iterator:
+	if i > 5000:
+		break
+	i += 1
 	try:
 		for commit in result['values']:
 			repo = ''
 			author = ''
 			try:
 				repo = commit['repository']['full_name']
-				author = commit['author']['username']
+				author = commit['author']['user']['username']
 			except KeyError:
 				pass
 
@@ -40,4 +44,17 @@ for result in iterator:
 	except KeyError:
 		pass
 
-print json.dumps(repos)
+for repo in repos:
+	total = 0
+	for author in repos[repo]:
+		if author != 'watchers':
+			total += repos[repo][author]
+	
+	for author in repos[repo]:
+		if author != 'watchers':
+			try:
+				users[author] += 1.0 * repos[repo]['watchers'] * repos[repo][author] / (total + 1)
+			except KeyError:
+				users[author] = 1.0 * repos[repo]['watchers'] * repos[repo][author] / (total + 1)
+
+print json.dumps(users)

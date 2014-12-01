@@ -5,6 +5,8 @@ totals = {}
 client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
 commits = db['commits']
+f = open('data/repList.data', 'r')
+replist = json.loads(f.read())
 
 iterator = commits.find({})
 for result in iterator:
@@ -14,11 +16,11 @@ for result in iterator:
 			reponame = ''
 			try:
 				username = commit['author']['user']['username']
-				reponame = commit['repository']['name']
+				reponame = commit['repository']['full_name']
 			except KeyError:
 				pass
 	
-			if username != '' and reponame != '':
+			if username != '' and reponame != '' and reponame in replist['repos']:
 				try:
 					users[username]
 				except KeyError:

@@ -4,6 +4,7 @@ users = {}
 client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
 pulls = db['pullrequests']
+f = open('data/repList.data', 'r')
 replist = json.loads(f.read())
 
 iterator = pulls.find({})
@@ -20,7 +21,7 @@ for result in iterator:
 			except KeyError:
 				pass
 
-			if username != '' and repo != '' and repo in replist:
+			if username != '' and repo != '' and repo in replist['repos']:
 				try:
 					users[username] += 1
 				except KeyError:

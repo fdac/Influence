@@ -9,16 +9,9 @@ commits = db['commits']
 iterator = commits.find({})
 for result in iterator:
 	try:
-		for commit in result['values']:
-			repo = ''
-			try:
-				repo = commit['repository']['full_name']
-			except KeyError:
-				pass
-	
-			if repo != '' and not repo in repos['repos']:
-				repos['repos'].append(repo)
-
+		repo = result['values'][0]['repository']['full_name']
+		if not repo in repos['repos']:
+			repos['repos'].append(repo)
 	except KeyError:
 		pass
 

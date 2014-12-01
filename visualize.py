@@ -5,8 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-def normalize(value, minimum, maximum):
-	return 1.0*(value - minimum) / (maximum - minimum)
+def normalize(value, iminimum, imaximum):
+	mininum = 5
+	maximum = 50
+	return mininum + ((maximum - mininum) * (value - iminimum) / (imaximum - iminimum))
 
 def make_colormap(seq):
     seq = [(None,) * 3, 0.0] + list(seq) + [1.0, (None,) * 3]
@@ -43,29 +45,23 @@ for user in js_pred:
 		wats.append(js_wat[user])
 		preds.append(js_pred[user])
 
-		if(min_pred > js_pred[user]):
+		if min_pred > js_pred[user]:
 			min_pred = js_pred[user]
 
-		if(max_pred < js_pred[user]):
+		if max_pred < js_pred[user]:
 			max_pred = js_pred[user]
 
-# scale these variables to handle skew in data
-folls_scaled = map(math.log, folls)
-for i in range(len(wats)):
-	wats[i] += 1
-wats_scaled = map(math.log, wats)
-preds_scaled = [normalize(x, min_pred, max_pred) for x in preds]
-
-x = np.array(folls_scaled)
-y = np.array(wats_scaled)
-colors = np.array(preds_scaled)
+x = np.array(folls)
+y = np.array(wats)
+colors = np.array(preds)
+sizes = np.array([normalize(item, min_pred, max_pred) for item in preds])
 
 c = mcolors.ColorConverter().to_rgb
 rvb = make_colormap([c('red'), c('violet'), 0.33, c('violet'), c('blue'), 0.66, c('blue')])
 
-plt.scatter(x, y, s=15, c=colors, cmap=rvb, alpha=0.5)
+plt.scatter(x, y, s=sizes, c=colors, cmap=rvb, alpha=0.5, linewidths=0)
 plt.colorbar()
 plt.title(fname)
-plt.xlabel('ln(nFollowers)')
-plt.ylabel('ln(nWatchers)')
+plt.xlabel('nFollowers')
+plt.ylabel('watchScore')
 plt.show()

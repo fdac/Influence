@@ -5,8 +5,6 @@ freqs = {}
 client = pymongo.MongoClient(host='da0.eecs.utk.edu')
 db = client['bitbucket']
 commits = db['commits']
-f = open('data/repList.data', 'r')
-replist = json.loads(f.read())
 
 iterator = commits.find({})
 for result in iterator:
@@ -22,7 +20,7 @@ for result in iterator:
 			except KeyError:
 				pass
 	
-			if username != '' and date != '' and repo != '' and repo in replist['repos']:
+			if username != '' and date != '':
 				year, month, day = map(int, date.split('T')[0].split('-'))
 				u_date = datetime.date(year, month, day)
 

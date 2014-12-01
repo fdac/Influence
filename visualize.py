@@ -28,8 +28,7 @@ fname = sys.argv[1]
 
 f_pred = open(fname, 'r')
 f_fol = open('data/nFollowers.data', 'r')
-#f_wat = open('data/nWatchers.data', 'r')
-f_wat = open('tmp_storage', 'r')
+f_wat = open('data/nWatchers.data', 'r')
 
 js_pred = json.loads(f_pred.read())
 js_fol = json.loads(f_fol.read())
@@ -50,7 +49,10 @@ for user in js_pred:
 		if(max_pred < js_pred[user]):
 			max_pred = js_pred[user]
 
+# scale these variables to handle skew in data
 folls_scaled = map(math.log, folls)
+for i in range(len(wats)):
+	wats[i] += 1
 wats_scaled = map(math.log, wats)
 preds_scaled = [normalize(x, min_pred, max_pred) for x in preds]
 
@@ -61,5 +63,9 @@ colors = np.array(preds_scaled)
 c = mcolors.ColorConverter().to_rgb
 rvb = make_colormap([c('red'), c('violet'), 0.33, c('violet'), c('blue'), 0.66, c('blue')])
 
-plt.scatter(x, y, s=2, c=colors, cmap=rvb, alpha=0.5)
+plt.scatter(x, y, s=15, c=colors, cmap=rvb, alpha=0.5)
+plt.colorbar()
+plt.title(fname)
+plt.xlabel('ln(nFollowers)')
+plt.ylabel('ln(nWatchers)')
 plt.show()

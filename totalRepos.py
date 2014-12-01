@@ -20,7 +20,7 @@ for result in iterator:
 			except KeyError:
 				pass
 	
-			if username != '' and reponame != '' and reponame in replist['repos']:
+			if username != '' and reponame != '':
 				try:
 					users[username]
 				except KeyError:
